@@ -2,7 +2,7 @@
 
 This guide walks you through pushing your local project to GitHub and deploying the application to production for free. 
 
-> **Important Note about Supabase**: This project was built using **MongoDB** (NoSQL) with Mongoose. **Supabase** is a PostgreSQL (SQL) provider. You cannot directly deploy a MongoDB database to Supabase without rewriting the backend. Therefore, this guide uses **MongoDB Atlas** for the database, **Render** for the backend, and **Vercel** for the frontend.
+> **Important Note about Supabase**: This project was built using **MongoDB** (NoSQL) with Mongoose. **Supabase** is a PostgreSQL (SQL) provider. You cannot directly deploy a MongoDB database to Supabase without rewriting the backend. Therefore, this guide uses **MongoDB Atlas** for the database, **Railway** for the backend, and **Vercel** for the frontend.
 
 ---
 
@@ -40,20 +40,14 @@ Since this app relies on MongoDB, we'll use MongoDB Atlas for free cloud hosting
 
 ---
 
-## Step 3: Backend Deployment (Render)
+## Step 3: Backend Deployment (Railway)
 
-Render is perfect for hosting our Node.js/Express backend.
+Railway is perfect for hosting our Node.js/Express backend.
 
-1. Go to [Render](https://render.com/) and sign in with GitHub.
-2. Click **New +** and select **Web Service**.
-3. Connect your GitHub repository and select your `smart-leads` repo.
-4. Configure the service:
-   - **Name**: `smart-leads-backend`
-   - **Root Directory**: `backend` *(Important: specify the backend folder!)*
-   - **Environment**: `Node`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
-5. Scroll down to **Environment Variables** and add:
+1. Go to [Railway](https://railway.app/) and sign in with GitHub.
+2. Click **New Project** -> **Deploy from GitHub repo**.
+3. Select your `smart-leads` repository.
+4. Click **Add Variables** before deploying, or go to the **Variables** tab and add:
    - `NODE_ENV` = `production`
    - `PORT` = `5000`
    - `MONGODB_URI` = `[Your MongoDB Atlas Connection String from Step 2]`
@@ -61,8 +55,12 @@ Render is perfect for hosting our Node.js/Express backend.
    - `JWT_EXPIRES_IN` = `7d`
    - `BCRYPT_ROUNDS` = `12`
    - `CORS_ORIGIN` = `*` *(We will update this to your Vercel URL later)*
-6. Click **Create Web Service**.
-7. Once deployed, copy your backend URL (e.g., `https://smart-leads-backend.onrender.com`).
+5. Go to the **Settings** tab -> **Service**:
+   - **Root Directory**: `/backend`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+6. Go to **Settings** -> **Networking** -> **Generate Domain**.
+7. Once deployed, copy your new backend URL (e.g., `https://smart-leads-backend.up.railway.app`).
 
 ---
 
@@ -81,7 +79,7 @@ Vercel is the easiest platform for hosting Vite/React frontends.
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
 6. Open **Environment Variables** and add:
-   - `VITE_API_URL` = `https://smart-leads-backend.onrender.com/api` *(Your Render URL from Step 3 + `/api`)*
+   - `VITE_API_URL` = `https://smart-leads-backend.up.railway.app/api` *(Your Railway URL from Step 3 + `/api`)*
 7. Click **Deploy**.
 8. Once complete, copy your new Vercel domain (e.g., `https://smart-leads-frontend.vercel.app`).
 
@@ -91,16 +89,16 @@ Vercel is the easiest platform for hosting Vite/React frontends.
 
 Now that Vercel is live, you should restrict your backend to only accept requests from your Vercel frontend.
 
-1. Go back to your Backend Web Service on **Render**.
-2. Go to **Environment**, find `CORS_ORIGIN`, and change it from `*` to your Vercel URL (e.g., `https://smart-leads-frontend.vercel.app`).
-3. Save changes (Render will automatically redeploy).
+1. Go back to your Backend project on **Railway**.
+2. Go to **Variables**, find `CORS_ORIGIN`, and change it from `*` to your Vercel URL (e.g., `https://smart-leads-frontend.vercel.app`).
+3. Save changes (Railway will automatically redeploy).
 
 ---
 
 ## Summary of Live Architecture
 
 - **Frontend**: Hosted on Vercel (Global Edge CDN)
-- **Backend**: Hosted on Render (Node.js container)
+- **Backend**: Hosted on Railway (Node.js container)
 - **Database**: Hosted on MongoDB Atlas (Cloud NoSQL)
 
 Your application is now fully live and accessible to anyone!
