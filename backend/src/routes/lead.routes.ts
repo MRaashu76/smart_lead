@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { leadController } from '../controllers/lead.controller';
-import { protect } from '../middleware/auth.middleware';
+import { protect, authorize } from '../middleware/auth.middleware';
 import { validate } from '../middleware/validate';
 import { createLeadSchema, updateLeadSchema, leadQuerySchema } from '../validators/lead.validators';
 
@@ -20,7 +20,7 @@ router.get('/stats', (req, res, next) =>
   leadController.getStats(req as AuthParams[0], res, next)
 );
 
-router.get('/export', (req, res, next) =>
+router.get('/export', authorize('admin'), (req, res, next) =>
   leadController.exportCsv(req as AuthParams[0], res, next)
 );
 
@@ -40,7 +40,7 @@ router.put('/:id', validate(updateLeadSchema), (req, res, next) =>
   leadController.update(req as AuthParams[0], res, next)
 );
 
-router.delete('/:id', (req, res, next) =>
+router.delete('/:id', authorize('admin'), (req, res, next) =>
   leadController.delete(req as AuthParams[0], res, next)
 );
 

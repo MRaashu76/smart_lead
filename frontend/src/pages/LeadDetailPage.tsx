@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil, Trash2, Mail, Calendar, Globe } from 'lucide-react';
 import { useLead, useUpdateLead, useDeleteLead } from '@/hooks/useLeads';
 import { StatusBadge, SourceBadge, Avatar, Spinner, ConfirmDialog, Modal } from '@/components/ui';
+import { useAuth } from '@/hooks/useAuth';
 import { LeadForm } from '@/components/leads/LeadForm';
 import { formatDateTime } from '@/utils';
 import { LeadForm as LeadFormType } from '@/types';
@@ -16,6 +17,7 @@ const LeadDetailPage = () => {
   const { data: lead, isLoading } = useLead(id ?? '');
   const { mutate: updateLead, isPending: isUpdating } = useUpdateLead();
   const { mutate: deleteLead, isPending: isDeleting } = useDeleteLead();
+  const { user } = useAuth();
 
   const handleUpdate = (formData: Partial<LeadFormType>) => {
     if (!id) return;
@@ -69,9 +71,11 @@ const LeadDetailPage = () => {
             <button onClick={() => setIsEditing(true)} className="btn-secondary">
               <Pencil size={14} /> Edit
             </button>
-            <button onClick={() => setIsDeleteOpen(true)} className="btn-danger">
-              <Trash2 size={14} /> Delete
-            </button>
+            {user?.role === 'admin' && (
+              <button onClick={() => setIsDeleteOpen(true)} className="btn-danger">
+                <Trash2 size={14} /> Delete
+              </button>
+            )}
           </div>
         </div>
 

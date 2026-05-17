@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Download } from 'lucide-react';
 import { Lead, LeadFilters as LeadFiltersType, LeadForm } from '@/types';
 import { useLeads, useCreateLead, useUpdateLead, useDeleteLead, useExportLeads } from '@/hooks/useLeads';
+import { useAuth } from '@/hooks/useAuth';
 import { LeadFilters } from '@/components/leads/LeadFilters';
 import { LeadTable } from '@/components/leads/LeadTable';
 import { LeadForm as LeadFormComponent } from '@/components/leads/LeadForm';
@@ -23,6 +24,7 @@ const LeadsPage = () => {
   const { mutate: updateLead, isPending: isUpdating } = useUpdateLead();
   const { mutate: deleteLead, isPending: isDeleting } = useDeleteLead();
   const { mutate: exportCSV, isPending: isExporting } = useExportLeads();
+  const { user } = useAuth();
 
   const handleCreate = (formData: LeadForm) => {
     createLead(formData, { onSuccess: () => setIsCreateOpen(false) });
@@ -48,14 +50,16 @@ const LeadsPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => exportCSV()}
-            disabled={isExporting}
-            className="btn-secondary"
-          >
-            <Download size={15} />
-            {isExporting ? 'Exporting…' : 'Export CSV'}
-          </button>
+          {user?.role === 'admin' && (
+            <button
+              onClick={() => exportCSV()}
+              disabled={isExporting}
+              className="btn-secondary"
+            >
+              <Download size={15} />
+              {isExporting ? 'Exporting…' : 'Export CSV'}
+            </button>
+          )}
           <button onClick={() => setIsCreateOpen(true)} className="btn-primary">
             <Plus size={15} /> Add Lead
           </button>
