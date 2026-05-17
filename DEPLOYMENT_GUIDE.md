@@ -56,9 +56,8 @@ Railway is perfect for hosting our Node.js/Express backend.
    - `BCRYPT_ROUNDS` = `12`
    - `CORS_ORIGIN` = `*` *(We will update this to your Vercel URL later)*
 5. Go to the **Settings** tab -> **Service**:
-   - **Root Directory**: `/backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
+   - **Root Directory**: `backend`
+   *(Leave Build Command and Start Command empty so Railway uses the Dockerfile!)*
 6. Go to **Settings** -> **Networking** -> **Generate Domain**.
 7. Once deployed, copy your new backend URL (e.g., `https://smart-leads-backend.up.railway.app`).
 
