@@ -15,5 +15,6 @@ FROM base AS runner
 ENV NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+COPY package.json ./
 EXPOSE 5000
 CMD ["node", "dist/server.js"]
