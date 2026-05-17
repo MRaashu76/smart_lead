@@ -6,7 +6,7 @@ import { env } from './config/env';
 const startServer = async (): Promise<void> => {
   await connectDB();
 
-  const server = app.listen(env.PORT, () => {
+  const server = app.listen(env.PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on http://localhost:${env.PORT}`);
     console.log(`📦 Environment: ${env.NODE_ENV}`);
     console.log(`📊 Health check: http://localhost:${env.PORT}/health`);
