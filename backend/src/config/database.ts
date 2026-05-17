@@ -13,6 +13,9 @@ export const connectDB = async (): Promise<void> => {
       await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 2000 });
       console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
     } catch (err) {
+      if (process.env.NODE_ENV === 'production') {
+        throw err;
+      }
       console.log('⚠️ Local MongoDB not found, falling back to In-Memory MongoDB for demo...');
       const mongoServer = await MongoMemoryServer.create();
       mongoUri = mongoServer.getUri();
