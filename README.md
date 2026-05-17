@@ -171,7 +171,7 @@ App runs at `http://localhost`
 | View all leads | ✅ | ❌ (own only) |
 | Create lead | ✅ | ✅ |
 | Update any lead | ✅ | ❌ (own only) |
-| Delete any lead | ✅ | ❌ (own only) |
+| Delete any lead | ✅ | ❌  |
 | View all users | ✅ | ❌ |
 
 ## Suggested Git Commits
