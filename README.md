@@ -18,6 +18,10 @@ A production-quality CRM dashboard for lead management. Built with the MERN stac
 - Dark mode support
 - Responsive design
 
+  ## DEMO LOGIN
+  id-kazuhaxaashu@gmail.com
+  pass-123456789
+
 ## Project Structure
 
 ```
